@@ -18,46 +18,11 @@
   .bar-fill { height: 100%; background: #00ff00; transition: width 0.3s; }
   #anger .bar-fill { background: #ff3333; }
 
+  /* Основной экран */
   #desk { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 20px; }
   
-  /* === ПИКСЕЛЬНЫЕ ПЕРСОНАЖИ === */
-  #pixel-zone { display: flex; justify-content: center; align-items: flex-end; margin-bottom: 10px; height: 140px; }
-  .pixel-char { position: relative; width: 100px; height: 140px; margin: 0 10px; }
-
-  /* Общие стили для пикселей */
-  .px { position: absolute; border: 1px solid #000; }
-
-  /* НЕТЦ (Длинные темные волосы, коричневый костюм) */
-  .netz-head { width: 36px; height: 36px; background: #d2a68a; top: 10px; left: 32px; border-radius: 8px; z-index: 2; }
-  .netz-hair { width: 40px; height: 50px; background: #1a1a1a; top: 5px; left: 30px; border-radius: 10px 10px 0 0; z-index: 1; }
-  .netz-body { width: 60px; height: 70px; background: #3e2723; top: 46px; left: 20px; z-index: 3; }
-  .netz-shirt { width: 16px; height: 40px; background: #eee; top: 46px; left: 42px; z-index: 4; }
-  .netz-tie { width: 6px; height: 30px; background: #222; top: 50px; left: 47px; z-index: 5; }
-
-  /* ЭВЕЛИН (Светлые волосы, зеленый шарф) */
-  .evelyn-head { width: 34px; height: 34px; background: #fce4d6; top: 15px; left: 33px; border-radius: 50%; z-index: 2; }
-  .evelyn-hair { width: 46px; height: 46px; background: #e8c77a; top: 8px; left: 27px; border-radius: 50% 50% 20% 20%; z-index: 1; }
-  .evelyn-scarf { width: 20px; height: 30px; background: #1b5e20; top: 45px; left: 40px; z-index: 4; }
-  .evelyn-body { width: 50px; height: 60px; background: #f0f0e0; top: 55px; left: 25px; z-index: 3; }
-  
-  /* БЕРНАДЕТТ (Темные волосы с белой прядью) */
-  .bern-head { width: 36px; height: 36px; background: #e8d0c0; top: 10px; left: 32px; border-radius: 8px; z-index: 2; }
-  .bern-hair { width: 44px; height: 44px; background: #2a1b1b; top: 6px; left: 28px; border-radius: 10px; z-index: 1; }
-  .bern-streak { width: 10px; height: 30px; background: #ccc; top: 6px; left: 28px; z-index: 2; transform: rotate(-10deg); }
-  .bern-body { width: 50px; height: 70px; background: #333; top: 46px; left: 25px; z-index: 3; }
-  .bern-necklace { width: 30px; height: 6px; background: #e8d0c0; top: 54px; left: 35px; z-index: 4; border-radius: 3px; }
-
-  /* ДЖЕФФРИ (Каштановые волосы, строгий костюм) */
-  .jeff-head { width: 34px; height: 40px; background: #f0d5c0; top: 10px; left: 33px; border-radius: 6px; z-index: 2; }
-  .jeff-hair { width: 38px; height: 28px; background: #4e342e; top: 4px; left: 31px; border-radius: 10px 10px 0 0; z-index: 1; }
-  .jeff-body { width: 54px; height: 70px; background: #b0bec5; top: 50px; left: 23px; z-index: 3; }
-  .jeff-tie { width: 8px; height: 40px; background: #222; top: 50px; left: 46px; z-index: 4; }
-
-  /* МИСТЕР МОРРИГАН (Светлые волосы, синий пиджак) */
-  .mich-head { width: 32px; height: 42px; background: #fce4d6; top: 10px; left: 34px; border-radius: 6px; z-index: 2; }
-  .mich-hair { width: 38px; height: 30px; background: #a1887f; top: 4px; left: 31px; border-radius: 10px 10px 0 0; z-index: 1; }
-  .mich-body { width: 56px; height: 70px; background: #1a237e; top: 52px; left: 22px; z-index: 3; }
-  .mich-tie { width: 8px; height: 35px; background: #8d6e63; top: 52px; left: 46px; z-index: 4; }
+  #visitor-dummy { width: 80px; height: 120px; background: #999; border: 4px solid #444; border-radius: 20px 20px 0 0; position: relative; margin-bottom: 10px; display: flex; justify-content: center; align-items: center; color: #333; font-weight: bold; font-size: 30px; }
+  #visitor-dummy::before { content: '?'; }
 
   #speech-bubble { background: #fff; padding: 10px; border: 2px solid #000; border-radius: 10px; position: relative; max-width: 80%; text-align: center; margin-bottom: 20px; z-index: 10; }
   #speech-bubble::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); border-width: 10px 10px 0; border-style: solid; border-color: #fff transparent transparent; }
@@ -89,6 +54,21 @@
   .task-card .task-buttons { display: flex; gap: 5px; }
   .task-card button { padding: 2px 8px; font-size: 10px; flex: none; width: auto; box-shadow: none; }
 
+  /* === МИНИ-ИГРА === */
+  #minigame-screen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #2c2c2c; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 50; padding: 20px; }
+  #minigame-title { color: #fff; font-size: 20px; margin-bottom: 20px; text-align: center; }
+  #minigame-area { width: 100%; max-width: 400px; height: 300px; background: #4a4a4a; border: 4px solid #000; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px; }
+  .minigame-object { width: 40px; height: 50px; background: #fff; border: 2px solid #000; display: flex; justify-content: center; align-items: center; font-size: 10px; cursor: pointer; box-shadow: 2px 2px 0 #000; transition: transform 0.1s; }
+  .minigame-object:active { transform: scale(0.9); }
+  .minigame-object.done { background: #4caf50; color: #fff; border-color: #000; pointer-events: none; }
+  #minigame-target { font-size: 16px; color: #fff; margin-top: 20px; }
+  
+  /* Пиксельные сотрудники для мини-игры (упрощенные) */
+  .mini-char { width: 60px; height: 100px; position: absolute; bottom: 10px; right: 10px; }
+  .mini-char .head { width: 24px; height: 24px; background: #f0c0a0; position: absolute; top: 0; left: 18px; border: 2px solid #000; border-radius: 4px; z-index: 2; }
+  .mini-char .body { width: 40px; height: 60px; background: #333; position: absolute; top: 24px; left: 10px; border: 2px solid #000; z-index: 1; }
+  .mini-char .hair { width: 28px; height: 12px; background: #4e342e; position: absolute; top: -4px; left: 16px; border: 2px solid #000; border-radius: 4px; z-index: 3; }
+
   #gameover { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); color: #fff; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; padding: 20px; }
   #gameover h1 { color: #f44336; margin-bottom: 20px; }
 </style>
@@ -102,18 +82,9 @@
       <div id="date-display">20 марта 1920 г.</div>
     </div>
     <div id="stats">
-      <div class="stat-box">
-        <span>ЭНЕРГИЯ</span>
-        <div class="bar"><div id="energy-fill" class="bar-fill" style="width: 100%;"></div></div>
-      </div>
-      <div class="stat-box" id="anger">
-        <span>ГНЕВ БОССА</span>
-        <div class="bar"><div id="anger-fill" class="bar-fill" style="width: 0%;"></div></div>
-      </div>
-      <div class="stat-box">
-        <span>ВРЕМЯ</span>
-        <span id="time-display">09:00</span>
-      </div>
+      <div class="stat-box"><span>ЭНЕРГИЯ</span><div class="bar"><div id="energy-fill" class="bar-fill" style="width: 100%;"></div></div></div>
+      <div class="stat-box" id="anger"><span>ГНЕВ БОССА</span><div class="bar"><div id="anger-fill" class="bar-fill" style="width: 0%;"></div></div></div>
+      <div class="stat-box"><span>ВРЕМЯ</span><span id="time-display">09:00</span></div>
     </div>
   </div>
 
@@ -121,12 +92,7 @@
     <div id="message"></div>
     <div id="tasks"></div>
     
-    <!-- Зона пиксельных персонажей -->
-    <div id="pixel-zone">
-      <!-- Место для текущего посетителя -->
-      <div id="visitor-pixel" class="pixel-char"></div>
-    </div>
-
+    <div id="visitor-dummy"></div>
     <div id="speech-bubble">...</div>
 
     <div id="document-zone">
@@ -143,6 +109,13 @@
     </div>
   </div>
 
+  <!-- Экран мини-игры -->
+  <div id="minigame-screen">
+    <h2 id="minigame-title">Мини-игра</h2>
+    <div id="minigame-area"></div>
+    <div id="minigame-target">Цель: 0 / 0</div>
+  </div>
+
   <div id="gameover">
     <h1>ВЫ УВОЛЕНЫ</h1>
     <p id="gameover-text">Мистер Морриган недоволен.</p>
@@ -155,62 +128,30 @@
   let anger = 0;
   let timeMinutes = 9 * 60;
   let isGameOver = false;
+  let isPaused = false; // Пауза для мини-игр
   let currentVisitor = null;
   let hasAskedName = false;
   
   const gameDate = new Date(1920, 2, 20);
   
-  // Список персонажей и их HTML-код для пикселей
-  const characterSprites = {
-    "Нетц": `
-      <div class="px netz-hair"></div>
-      <div class="px netz-body"></div>
-      <div class="px netz-head"></div>
-      <div class="px netz-shirt"></div>
-      <div class="px netz-tie"></div>
-    `,
-    "Эвелин": `
-      <div class="px evelyn-hair"></div>
-      <div class="px evelyn-body"></div>
-      <div class="px evelyn-head"></div>
-      <div class="px evelyn-scarf"></div>
-    `,
-    "Бернадетт": `
-      <div class="px bern-hair"></div>
-      <div class="px bern-streak"></div>
-      <div class="px bern-body"></div>
-      <div class="px bern-head"></div>
-      <div class="px bern-necklace"></div>
-    `,
-    "Джеффри": `
-      <div class="px jeff-hair"></div>
-      <div class="px jeff-body"></div>
-      <div class="px jeff-head"></div>
-      <div class="px jeff-tie"></div>
-    `,
-    "Мистер Морриган": `
-      <div class="px mich-hair"></div>
-      <div class="px mich-body"></div>
-      <div class="px mich-head"></div>
-      <div class="px mich-tie"></div>
-    `
-  };
+  const firstNames = ["Александр", "Дмитрий", "Сергей", "Андрей", "Алексей", "Максим", "Иван", "Михаил", "Артем", "Николай", "Владимир", "Павел", "Роман", "Егор", "Игорь", "Анна", "Мария", "Елена", "Ольга", "Наталья", "Ирина", "Татьяна", "Светлана", "Екатерина", "Джон", "Джеймс", "Роберт", "Майкл", "Уильям", "Дэвид", "Ричард", "Джозеф", "Томас", "Чарльз", "Мэри", "Патриция", "Дженнифер", "Линда", "Элизабет", "Барбара"];
+  const lastNames = ["Смит", "Джонсон", "Уильямс", "Браун", "Джонс", "Гарсия", "Миллер", "Дэвис", "Родригес", "Мартинес", "Эрнандес", "Лопес", "Гонсалес", "Уилсон", "Андерсон", "Томас", "Тейлор", "Мур", "Джексон", "Мартин", "Ли", "Перес", "Томпсон", "Уайт", "Харрис", "Санчес", "Кларк", "Рамирес", "Льюис", "Робинсон"];
 
-  const names = Object.keys(characterSprites);
+  function getRandomName() {
+    return `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`;
+  }
 
   function generateVisitor() {
     hasAskedName = false;
     document.getElementById('btn-ask-name').style.display = 'block';
 
-    const realName = names[Math.floor(Math.random() * names.length)];
-    const fakeName = Math.random() < 0.3 ? names[Math.floor(Math.random() * names.length)] : realName;
+    const realName = getRandomName();
+    const docName = Math.random() < 0.2 ? getRandomName() : realName;
+    const isDocFake = docName !== realName;
     
     const daysOffset = Math.floor(Math.random() * 21) - 10;
     const expiryDate = new Date(gameDate);
     expiryDate.setDate(gameDate.getDate() + daysOffset);
-    
-    const docName = Math.random() < 0.2 ? names[Math.floor(Math.random() * names.length)] : realName;
-    const isDocFake = docName !== realName;
 
     currentVisitor = {
       realName: realName, docName: docName, expiry: expiryDate,
@@ -230,20 +171,17 @@
     const expiryEl = document.getElementById('doc-expiry');
     expiryEl.textContent = expiryStr;
     expiryEl.className = currentVisitor.isExpired ? 'doc-value expired' : 'doc-value valid';
-
-    // Вставляем нужный пиксельный спрайт
-    document.getElementById('visitor-pixel').innerHTML = characterSprites[realName];
   }
 
   window.askName = function() {
-    if (isGameOver || hasAskedName) return;
+    if (isGameOver || hasAskedName || isPaused) return;
     hasAskedName = true;
     document.getElementById('btn-ask-name').style.display = 'none';
     document.getElementById('speech-bubble').textContent = `— Меня зовут ${currentVisitor.realName}. Вот моя лицензия.`;
   };
 
   window.handleAction = function(action) {
-    if (isGameOver) return;
+    if (isGameOver || isPaused) return;
 
     let isCorrect = false;
 
@@ -281,37 +219,184 @@
     }, 1500);
   };
 
+  // === МЕХАНИКА МИНИ-ИГР ===
+  function startMiniGame(type, employeeName, taskCard) {
+    isPaused = true;
+    taskCard.remove(); // Убираем карточку, так как мы уже в мини-игре
+    
+    const screen = document.getElementById('minigame-screen');
+    const title = document.getElementById('minigame-title');
+    const area = document.getElementById('minigame-area');
+    const targetText = document.getElementById('minigame-target');
+    
+    screen.style.display = 'flex';
+    area.innerHTML = '';
+    
+    let requiredClicks = 0;
+    let currentClicks = 0;
+    
+    if (type === 'papers') {
+      title.textContent = `Альфред: «Подшей эти отчеты, стажёр.»`;
+      requiredClicks = 5;
+      for (let i = 0; i < 5; i++) {
+        const paper = document.createElement('div');
+        paper.className = 'minigame-object';
+        paper.textContent = 'Отчет';
+        paper.onclick = () => {
+          if (!paper.classList.contains('done')) {
+            paper.classList.add('done');
+            currentClicks++;
+            updateTarget();
+          }
+        };
+        area.appendChild(paper);
+      }
+      addMiniChar(area, '#b0bec5', 'Альфред'); // Серый пиджак
+    } 
+    else if (type === 'sugar') {
+      title.textContent = `Эвелин: «Принеси сахар из шкафа, пожалуйста.»`;
+      requiredClicks = 3;
+      for (let i = 0; i < 3; i++) {
+        const sugar = document.createElement('div');
+        sugar.className = 'minigame-object';
+        sugar.textContent = 'Сахар';
+        sugar.style.background = '#fff';
+        sugar.onclick = () => {
+          if (!sugar.classList.contains('done')) {
+            sugar.classList.add('done');
+            currentClicks++;
+            updateTarget();
+          }
+        };
+        area.appendChild(sugar);
+      }
+      addMiniChar(area, '#1b5e20', 'Эвелин'); // Зеленый шарф
+    }
+    else if (type === 'archive') {
+      title.textContent = `Нетц: «Проверь архив, там всё в порядке?»`;
+      requiredClicks = 4;
+      for (let i = 0; i < 4; i++) {
+        const file = document.createElement('div');
+        file.className = 'minigame-object';
+        file.textContent = 'Файл';
+        file.style.background = '#d2a68a'; // Цвет папки
+        file.onclick = () => {
+          if (!file.classList.contains('done')) {
+            file.classList.add('done');
+            currentClicks++;
+            updateTarget();
+          }
+        };
+        area.appendChild(file);
+      }
+      addMiniChar(area, '#3e2723', 'Нетц'); // Коричневый пиджак
+    }
+    else if (type === 'spoon') {
+      title.textContent = `Бернадетт: «Проверь ложку в ящике. Она тёплая.»`;
+      requiredClicks = 1;
+      const spoon = document.createElement('div');
+      spoon.className = 'minigame-object';
+      spoon.textContent = 'Ложка';
+      spoon.style.background = '#ccc';
+      spoon.onclick = () => {
+        if (!spoon.classList.contains('done')) {
+          spoon.classList.add('done');
+          currentClicks++;
+          updateTarget();
+        }
+      };
+      area.appendChild(spoon);
+      addMiniChar(area, '#333', 'Бернадетт'); // Темная одежда
+    }
+    else if (type === 'smoke') {
+      title.textContent = `Ваня: «Пойдём покурим?»`;
+      requiredClicks = 1;
+      const cig = document.createElement('div');
+      cig.className = 'minigame-object';
+      cig.textContent = 'Курить';
+      cig.style.background = '#f44336';
+      cig.onclick = () => {
+        if (!cig.classList.contains('done')) {
+          cig.classList.add('done');
+          currentClicks++;
+          updateTarget();
+        }
+      };
+      area.appendChild(cig);
+      addMiniChar(area, '#4e342e', 'Ваня'); // Каштановые волосы
+    }
+
+    function updateTarget() {
+      targetText.textContent = `Цель: ${currentClicks} / ${requiredClicks}`;
+      if (currentClicks >= requiredClicks) {
+        setTimeout(() => {
+          screen.style.display = 'none';
+          isPaused = false;
+          showMessage("Поручение выполнено!", "green");
+          anger = Math.max(0, anger - 5);
+          updateStats();
+        }, 500);
+      }
+    }
+    updateTarget();
+  }
+
+  // Вспомогательная функция для добавления пиксельного сотрудника в мини-игру
+  function addMiniChar(area, bodyColor, name) {
+    const char = document.createElement('div');
+    char.className = 'mini-char';
+    
+    let hairColor = '#4e342e';
+    if (name === 'Эвелин') hairColor = '#e8c77a';
+    if (name === 'Нетц') hairColor = '#1a1a1a';
+    
+    char.innerHTML = `
+      <div class="body" style="background: ${bodyColor};"></div>
+      <div class="head"></div>
+      <div class="hair" style="background: ${hairColor};"></div>
+    `;
+    area.appendChild(char);
+  }
+
+  // === ЗАДАНИЯ ===
   function spawnTask() {
-    if (isGameOver) return;
+    if (isGameOver || isPaused) return;
     const tasksEl = document.getElementById('tasks');
     
     const taskData = [
       {
         text: "Ваня: «Стажёр, пойдём покурим? А то тут душно.»",
         options: [
-          { label: "Пойти", effect: () => { energy -= 15; anger = Math.max(0, anger - 10); showMessage("Вы покурили. Ваня доволен.", "green"); } },
+          { label: "Пойти", minigame: 'smoke', effect: () => { energy -= 15; anger = Math.max(0, anger - 10); } },
           { label: "Отказаться", effect: () => { anger += 5; showMessage("Ваня обиделся.", "red"); } }
         ]
       },
       {
         text: "Бернадетт: «Стажёр, проверь, не шевелится ли ложка в ящике.»",
         options: [
-          { label: "Проверить", effect: () => { energy -= 10; anger = Math.max(0, anger - 5); showMessage("Ложка не шевелится. Вы живы.", "green"); } },
+          { label: "Проверить", minigame: 'spoon', effect: () => { energy -= 5; } },
           { label: "Игнорировать", effect: () => { anger += 15; showMessage("Бернадетт обиделась. И ложка тоже.", "red"); } }
         ]
       },
       {
         text: "Альфред: «Стажёр, подшей отчет за вчерашний день. Срочно.»",
         options: [
-          { label: "Подшить", effect: () => { energy -= 10; anger = Math.max(0, anger - 5); showMessage("Отчет подшит. Альфред кивнул.", "green"); } },
+          { label: "Подшить", minigame: 'papers', effect: () => { energy -= 10; } },
           { label: "Сказать 'потом'", effect: () => { anger += 10; showMessage("Альфред записал это в личное дело.", "red"); } }
         ]
       },
       {
         text: "Эвелин: «Стажёр, принеси сахар из шкафа, пожалуйста.»",
         options: [
-          { label: "Принести", effect: () => { energy -= 5; anger = Math.max(0, anger - 5); showMessage("Эвелин счастлива. Кофе будет сладким.", "green"); } },
+          { label: "Принести", minigame: 'sugar', effect: () => { energy -= 5; } },
           { label: "Отказаться", effect: () => { anger += 5; showMessage("Эвелин вздохнула.", "red"); } }
+        ]
+      },
+      {
+        text: "Нетц: «Стажёр, зайди в архив, посмотри, там все в порядке?»",
+        options: [
+          { label: "Сходить", minigame: 'archive', effect: () => { energy -= 15; } },
+          { label: "Сказать, что занят", effect: () => { anger += 5; showMessage("Нетц подозрительно прищурился.", "red"); } }
         ]
       }
     ];
@@ -321,7 +406,7 @@
     task.className = 'task-card';
     
     let buttonsHTML = data.options.map((opt, index) => 
-      `<button onclick="completeTask(${index}, this)">${opt.label}</button>`
+      `<button onclick="handleTaskClick(${index}, this)">${opt.label}</button>`
     ).join('');
 
     task.innerHTML = `
@@ -329,11 +414,12 @@
       <div class="task-buttons">${buttonsHTML}</div>
     `;
     
-    task._effects = data.options.map(opt => opt.effect);
+    task._options = data.options;
+    task._originalText = data.text;
     tasksEl.appendChild(task);
 
     setTimeout(() => {
-      if (task.parentNode) {
+      if (task.parentNode && !isPaused) {
         task.remove();
         anger += 10;
         showMessage("Поручение провалено!", "red");
@@ -342,10 +428,20 @@
     }, 20000);
   }
 
-  window.completeTask = function(index, btn) {
+  // Обработка клика по кнопке в задании
+  window.handleTaskClick = function(index, btn) {
     const task = btn.closest('.task-card');
-    if (task && task._effects && task._effects[index]) {
-      task._effects[index]();
+    if (!task) return;
+    
+    const option = task._options[index];
+    
+    if (option.minigame) {
+      // Запуск мини-игры
+      const employeeName = task._originalText.split(':')[0];
+      startMiniGame(option.minigame, employeeName, task);
+    } else {
+      // Обычное действие
+      if (option.effect) option.effect();
       task.remove();
       updateStats();
     }
@@ -375,7 +471,7 @@
   }
 
   setInterval(() => {
-    if (isGameOver) return;
+    if (isGameOver || isPaused) return; // Таймер стоит, пока идет мини-игра
     timeMinutes += 1;
     if (timeMinutes >= 18 * 60) { endGame(true); return; }
     if (timeMinutes % 10 === 0) {
@@ -385,7 +481,7 @@
   }, 100);
 
   setInterval(() => {
-    if (!isGameOver && Math.random() < 0.4) spawnTask();
+    if (!isGameOver && !isPaused && Math.random() < 0.4) spawnTask();
   }, 8000);
 
   function endGame(isWin = false) {
