@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Бюро: Смена стажёра</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; user-select: none; }
+  body { background: #1a1a1a; height: 100vh; display: flex; justify-content: center; overflow: hidden; color: #000; }
+  
+  #game { width: 100%; max-width: 600px; height: 100%; display: flex; flex-direction: column; background: #d2c5b3; position: relative; }
+  
+  #hud { background: #3e2a1f; color: #e0d0c0; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: bold; border-bottom: 4px solid #5a3f2c; z-index: 5; }
+  #date-display { color: #ffcc00; }
+  #stats { display: flex; gap: 15px; }
+  .stat-box { display: flex; flex-direction: column; align-items: flex-end; }
+  .bar { width: 60px; height: 8px; background: #555; border: 1px solid #000; margin-top: 2px; }
+  .bar-fill { height: 100%; background: #00ff00; transition: width 0.3s; }
+  #anger .bar-fill { background: #ff3333; }
+
+  #desk { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 20px; }
+  
+  /* === ПИКСЕЛЬНЫЕ ПЕРСОНАЖИ === */
+  #pixel-zone { display: flex; justify-content: center; align-items: flex-end; margin-bottom: 10px; height: 140px; }
+  .pixel-char { position: relative; width: 100px; height: 140px; margin: 0 10px; }
+
+  /* Общие стили для пикселей */
+  .px { position: absolute; border: 1px solid #000; }
+
+  /* НЕТЦ (Длинные темные волосы, коричневый костюм) */
+  .netz-head { width: 36px; height: 36px; background: #d2a68a; top: 10px; left: 32px; border-radius: 8px; z-index: 2; }
+  .netz-hair { width: 40px; height: 50px; background: #1a1a1a; top: 5px; left: 30px; border-radius: 10px 10px 0 0; z-index: 1; }
+  .netz-body { width: 60px; height: 70px; background: #3e2723; top: 46px; left: 20px; z-index: 3; }
+  .netz-shirt { width: 16px; height: 40px; background: #eee; top: 46px; left: 42px; z-index: 4; }
+  .netz-tie { width: 6px; height: 30px; background: #222; top: 50px; left: 47px; z-index: 5; }
+
+  /* ЭВЕЛИН (Светлые волосы, зеленый шарф) */
+  .evelyn-head { width: 34px; height: 34px; background: #fce4d6; top: 15px; left: 33px; border-radius: 50%; z-index: 2; }
+  .evelyn-hair { width: 46px; height: 46px; background: #e8c77a; top: 8px; left: 27px; border-radius: 50% 50% 20% 20%; z-index: 1; }
+  .evelyn-scarf { width: 20px; height: 30px; background: #1b5e20; top: 45px; left: 40px; z-index: 4; }
+  .evelyn-body { width: 50px; height: 60px; background: #f0f0e0; top: 55px; left: 25px; z-index: 3; }
+  
+  /* БЕРНАДЕТТ (Темные волосы с белой прядью) */
+  .bern-head { width: 36px; height: 36px; background: #e8d0c0; top: 10px; left: 32px; border-radius: 8px; z-index: 2; }
+  .bern-hair { width: 44px; height: 44px; background: #2a1b1b; top: 6px; left: 28px; border-radius: 10px; z-index: 1; }
+  .bern-streak { width: 10px; height: 30px; background: #ccc; top: 6px; left: 28px; z-index: 2; transform: rotate(-10deg); }
+  .bern-body { width: 50px; height: 70px; background: #333; top: 46px; left: 25px; z-index: 3; }
+  .bern-necklace { width: 30px; height: 6px; background: #e8d0c0; top: 54px; left: 35px; z-index: 4; border-radius: 3px; }
+
+  /* ДЖЕФФРИ (Каштановые волосы, строгий костюм) */
+  .jeff-head { width: 34px; height: 40px; background: #f0d5c0; top: 10px; left: 33px; border-radius: 6px; z-index: 2; }
+  .jeff-hair { width: 38px; height: 28px; background: #4e342e; top: 4px; left: 31px; border-radius: 10px 10px 0 0; z-index: 1; }
+  .jeff-body { width: 54px; height: 70px; background: #b0bec5; top: 50px; left: 23px; z-index: 3; }
+  .jeff-tie { width: 8px; height: 40px; background: #222; top: 50px; left: 46px; z-index: 4; }
+
+  /* МИСТЕР МОРРИГАН (Светлые волосы, синий пиджак) */
+  .mich-head { width: 32px; height: 42px; background: #fce4d6; top: 10px; left: 34px; border-radius: 6px; z-index: 2; }
+  .mich-hair { width: 38px; height: 30px; background: #a1887f; top: 4px; left: 31px; border-radius: 10px 10px 0 0; z-index: 1; }
+  .mich-body { width: 56px; height: 70px; background: #1a237e; top: 52px; left: 22px; z-index: 3; }
+  .mich-tie { width: 8px; height: 35px; background: #8d6e63; top: 52px; left: 46px; z-index: 4; }
+
+  #speech-bubble { background: #fff; padding: 10px; border: 2px solid #000; border-radius: 10px; position: relative; max-width: 80%; text-align: center; margin-bottom: 20px; z-index: 10; }
+  #speech-bubble::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); border-width: 10px 10px 0; border-style: solid; border-color: #fff transparent transparent; }
+  
+  #document-zone { width: 100%; max-width: 350px; background: #fff; border: 2px solid #000; padding: 15px; position: relative; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); transform: rotate(-1deg); margin-bottom: 20px; z-index: 10; }
+  #doc-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; font-weight: bold; font-size: 12px; text-transform: uppercase; }
+  .doc-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; }
+  .doc-label { font-weight: bold; }
+  .doc-value { border-bottom: 1px dotted #000; min-width: 120px; text-align: right; }
+  .expired { color: #cc0000; font-weight: bold; }
+  .valid { color: #006600; font-weight: bold; }
+
+  #actions { display: flex; gap: 10px; width: 100%; max-width: 350px; z-index: 10; }
+  button { flex: 1; padding: 15px; font-size: 16px; font-weight: bold; border: 2px solid #000; cursor: pointer; text-transform: uppercase; box-shadow: 2px 2px 0 #000; transition: 0.1s; }
+  button:active { transform: translate(2px, 2px); box-shadow: none; }
+  #btn-approve { background: #4caf50; color: #fff; }
+  #btn-deny { background: #f44336; color: #fff; }
+  #btn-ask-name { background: #2196f3; color: #fff; }
+
+  #message { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 10px 20px; border-radius: 5px; font-weight: bold; display: none; z-index: 20; text-align: center; }
+  .flash-red { animation: flashRed 0.5s; }
+  .flash-green { animation: flashGreen 0.5s; }
+  @keyframes flashRed { 0%, 100% { background-color: transparent; } 50% { background-color: rgba(255,0,0,0.3); } }
+  @keyframes flashGreen { 0%, 100% { background-color: transparent; } 50% { background-color: rgba(0,255,0,0.3); } }
+
+  #tasks { position: absolute; top: 60px; left: 10px; right: 10px; display: flex; flex-direction: column; gap: 5px; z-index: 15; }
+  .task-card { background: #fff; border: 2px solid #000; padding: 5px 10px; font-size: 12px; display: flex; flex-direction: column; gap: 5px; box-shadow: 2px 2px 0 #000; }
+  .task-card .task-text { font-weight: bold; }
+  .task-card .task-buttons { display: flex; gap: 5px; }
+  .task-card button { padding: 2px 8px; font-size: 10px; flex: none; width: auto; box-shadow: none; }
+
+  #gameover { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); color: #fff; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; padding: 20px; }
+  #gameover h1 { color: #f44336; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+
+<div id="game">
+  <div id="hud">
+    <div>
+      <div>Смена: Понедельник</div>
+      <div id="date-display">20 марта 1920 г.</div>
+    </div>
+    <div id="stats">
+      <div class="stat-box">
+        <span>ЭНЕРГИЯ</span>
+        <div class="bar"><div id="energy-fill" class="bar-fill" style="width: 100%;"></div></div>
+      </div>
+      <div class="stat-box" id="anger">
+        <span>ГНЕВ БОССА</span>
+        <div class="bar"><div id="anger-fill" class="bar-fill" style="width: 0%;"></div></div>
+      </div>
+      <div class="stat-box">
+        <span>ВРЕМЯ</span>
+        <span id="time-display">09:00</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="desk">
+    <div id="message"></div>
+    <div id="tasks"></div>
+    
+    <!-- Зона пиксельных персонажей -->
+    <div id="pixel-zone">
+      <!-- Место для текущего посетителя -->
+      <div id="visitor-pixel" class="pixel-char"></div>
+    </div>
+
+    <div id="speech-bubble">...</div>
+
+    <div id="document-zone">
+      <div id="doc-header">Бюро Магического Регулирования</div>
+      <div class="doc-row"><span class="doc-label">Имя:</span> <span id="doc-name" class="doc-value">...</span></div>
+      <div class="doc-row"><span class="doc-label">Номер:</span> <span id="doc-number" class="doc-value">...</span></div>
+      <div class="doc-row"><span class="doc-label">Истекает:</span> <span id="doc-expiry" class="doc-value">...</span></div>
+    </div>
+
+    <div id="actions">
+      <button id="btn-ask-name" onclick="askName()">Спросить имя</button>
+      <button id="btn-approve" onclick="handleAction('approve')">Одобрить</button>
+      <button id="btn-deny" onclick="handleAction('deny')">Отклонить</button>
+    </div>
+  </div>
+
+  <div id="gameover">
+    <h1>ВЫ УВОЛЕНЫ</h1>
+    <p id="gameover-text">Мистер Морриган недоволен.</p>
+    <button onclick="location.reload()" style="margin-top: 20px; width: 200px;">Начать заново</button>
+  </div>
+</div>
+
+<script>
+  let energy = 100;
+  let anger = 0;
+  let timeMinutes = 9 * 60;
+  let isGameOver = false;
+  let currentVisitor = null;
+  let hasAskedName = false;
+  
+  const gameDate = new Date(1920, 2, 20);
+  
+  // Список персонажей и их HTML-код для пикселей
+  const characterSprites = {
+    "Нетц": `
+      <div class="px netz-hair"></div>
+      <div class="px netz-body"></div>
+      <div class="px netz-head"></div>
+      <div class="px netz-shirt"></div>
+      <div class="px netz-tie"></div>
+    `,
+    "Эвелин": `
+      <div class="px evelyn-hair"></div>
+      <div class="px evelyn-body"></div>
+      <div class="px evelyn-head"></div>
+      <div class="px evelyn-scarf"></div>
+    `,
+    "Бернадетт": `
+      <div class="px bern-hair"></div>
+      <div class="px bern-streak"></div>
+      <div class="px bern-body"></div>
+      <div class="px bern-head"></div>
+      <div class="px bern-necklace"></div>
+    `,
+    "Джеффри": `
+      <div class="px jeff-hair"></div>
+      <div class="px jeff-body"></div>
+      <div class="px jeff-head"></div>
+      <div class="px jeff-tie"></div>
+    `,
+    "Мистер Морриган": `
+      <div class="px mich-hair"></div>
+      <div class="px mich-body"></div>
+      <div class="px mich-head"></div>
+      <div class="px mich-tie"></div>
+    `
+  };
+
+  const names = Object.keys(characterSprites);
+
+  function generateVisitor() {
+    hasAskedName = false;
+    document.getElementById('btn-ask-name').style.display = 'block';
+
+    const realName = names[Math.floor(Math.random() * names.length)];
+    const fakeName = Math.random() < 0.3 ? names[Math.floor(Math.random() * names.length)] : realName;
+    
+    const daysOffset = Math.floor(Math.random() * 21) - 10;
+    const expiryDate = new Date(gameDate);
+    expiryDate.setDate(gameDate.getDate() + daysOffset);
+    
+    const docName = Math.random() < 0.2 ? names[Math.floor(Math.random() * names.length)] : realName;
+    const isDocFake = docName !== realName;
+
+    currentVisitor = {
+      realName: realName, docName: docName, expiry: expiryDate,
+      isExpired: expiryDate < gameDate, isDocFake: isDocFake,
+      wantsRenew: Math.random() < 0.5
+    };
+
+    let speech = "";
+    if (currentVisitor.wantsRenew) speech = "Стажёр, мне нужно продлить лицензию. Вот моя бумага.";
+    else speech = "Стажёр, проверьте мою лицензию. Мне сказали, что она действительна.";
+
+    document.getElementById('speech-bubble').textContent = '— ' + speech;
+    document.getElementById('doc-name').textContent = currentVisitor.docName;
+    document.getElementById('doc-number').textContent = "БМР-" + Math.floor(1000 + Math.random() * 9000);
+    
+    const expiryStr = expiryDate.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const expiryEl = document.getElementById('doc-expiry');
+    expiryEl.textContent = expiryStr;
+    expiryEl.className = currentVisitor.isExpired ? 'doc-value expired' : 'doc-value valid';
+
+    // Вставляем нужный пиксельный спрайт
+    document.getElementById('visitor-pixel').innerHTML = characterSprites[realName];
+  }
+
+  window.askName = function() {
+    if (isGameOver || hasAskedName) return;
+    hasAskedName = true;
+    document.getElementById('btn-ask-name').style.display = 'none';
+    document.getElementById('speech-bubble').textContent = `— Меня зовут ${currentVisitor.realName}. Вот моя лицензия.`;
+  };
+
+  window.handleAction = function(action) {
+    if (isGameOver) return;
+
+    let isCorrect = false;
+
+    if (currentVisitor.isDocFake) {
+      isCorrect = (action === 'deny');
+    } else if (currentVisitor.wantsRenew) {
+      isCorrect = currentVisitor.isExpired ? (action === 'approve') : (action === 'deny');
+    } else {
+      isCorrect = currentVisitor.isExpired ? (action === 'deny') : (action === 'approve');
+    }
+
+    if (isCorrect) {
+      showMessage("Верно! Босс доволен.", "green");
+      anger = Math.max(0, anger - 10);
+    } else {
+      showMessage("ОШИБКА! Босс в ярости!", "red");
+      anger += 15;
+      energy -= 10;
+    }
+
+    energy -= 2;
+    updateStats();
+    
+    if (anger >= 100 || energy <= 0) { endGame(); return; }
+
+    document.getElementById('btn-approve').disabled = true;
+    document.getElementById('btn-deny').disabled = true;
+    document.getElementById('btn-ask-name').disabled = true;
+    
+    setTimeout(() => {
+      document.getElementById('btn-approve').disabled = false;
+      document.getElementById('btn-deny').disabled = false;
+      document.getElementById('btn-ask-name').disabled = false;
+      generateVisitor();
+    }, 1500);
+  };
+
+  function spawnTask() {
+    if (isGameOver) return;
+    const tasksEl = document.getElementById('tasks');
+    
+    const taskData = [
+      {
+        text: "Ваня: «Стажёр, пойдём покурим? А то тут душно.»",
+        options: [
+          { label: "Пойти", effect: () => { energy -= 15; anger = Math.max(0, anger - 10); showMessage("Вы покурили. Ваня доволен.", "green"); } },
+          { label: "Отказаться", effect: () => { anger += 5; showMessage("Ваня обиделся.", "red"); } }
+        ]
+      },
+      {
+        text: "Бернадетт: «Стажёр, проверь, не шевелится ли ложка в ящике.»",
+        options: [
+          { label: "Проверить", effect: () => { energy -= 10; anger = Math.max(0, anger - 5); showMessage("Ложка не шевелится. Вы живы.", "green"); } },
+          { label: "Игнорировать", effect: () => { anger += 15; showMessage("Бернадетт обиделась. И ложка тоже.", "red"); } }
+        ]
+      },
+      {
+        text: "Альфред: «Стажёр, подшей отчет за вчерашний день. Срочно.»",
+        options: [
+          { label: "Подшить", effect: () => { energy -= 10; anger = Math.max(0, anger - 5); showMessage("Отчет подшит. Альфред кивнул.", "green"); } },
+          { label: "Сказать 'потом'", effect: () => { anger += 10; showMessage("Альфред записал это в личное дело.", "red"); } }
+        ]
+      },
+      {
+        text: "Эвелин: «Стажёр, принеси сахар из шкафа, пожалуйста.»",
+        options: [
+          { label: "Принести", effect: () => { energy -= 5; anger = Math.max(0, anger - 5); showMessage("Эвелин счастлива. Кофе будет сладким.", "green"); } },
+          { label: "Отказаться", effect: () => { anger += 5; showMessage("Эвелин вздохнула.", "red"); } }
+        ]
+      }
+    ];
+
+    const data = taskData[Math.floor(Math.random() * taskData.length)];
+    const task = document.createElement('div');
+    task.className = 'task-card';
+    
+    let buttonsHTML = data.options.map((opt, index) => 
+      `<button onclick="completeTask(${index}, this)">${opt.label}</button>`
+    ).join('');
+
+    task.innerHTML = `
+      <div class="task-text">${data.text}</div>
+      <div class="task-buttons">${buttonsHTML}</div>
+    `;
+    
+    task._effects = data.options.map(opt => opt.effect);
+    tasksEl.appendChild(task);
+
+    setTimeout(() => {
+      if (task.parentNode) {
+        task.remove();
+        anger += 10;
+        showMessage("Поручение провалено!", "red");
+        updateStats();
+      }
+    }, 20000);
+  }
+
+  window.completeTask = function(index, btn) {
+    const task = btn.closest('.task-card');
+    if (task && task._effects && task._effects[index]) {
+      task._effects[index]();
+      task.remove();
+      updateStats();
+    }
+  };
+
+  function showMessage(text, color) {
+    const msg = document.getElementById('message');
+    msg.textContent = text;
+    msg.style.backgroundColor = color === 'red' ? '#cc0000' : '#006600';
+    msg.style.display = 'block';
+    document.getElementById('desk').classList.add(color === 'red' ? 'flash-red' : 'flash-green');
+    setTimeout(() => {
+      msg.style.display = 'none';
+      document.getElementById('desk').classList.remove('flash-red', 'flash-green');
+    }, 1500);
+  }
+
+  function updateStats() {
+    document.getElementById('energy-fill').style.width = Math.max(0, energy) + '%';
+    document.getElementById('anger-fill').style.width = Math.min(100, anger) + '%';
+    if (energy < 30) document.getElementById('energy-fill').style.background = '#ff3333';
+    else document.getElementById('energy-fill').style.background = '#00ff00';
+
+    const hours = Math.floor(timeMinutes / 60);
+    const mins = timeMinutes % 60;
+    document.getElementById('time-display').textContent = `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+  }
+
+  setInterval(() => {
+    if (isGameOver) return;
+    timeMinutes += 1;
+    if (timeMinutes >= 18 * 60) { endGame(true); return; }
+    if (timeMinutes % 10 === 0) {
+      energy -= 1; updateStats();
+      if (energy <= 0) endGame();
+    }
+  }, 100);
+
+  setInterval(() => {
+    if (!isGameOver && Math.random() < 0.4) spawnTask();
+  }, 8000);
+
+  function endGame(isWin = false) {
+    isGameOver = true;
+    const go = document.getElementById('gameover');
+    go.style.display = 'flex';
+    if (isWin) {
+      go.querySelector('h1').textContent = "СМЕНА ОКОНЧЕНА";
+      go.querySelector('h1').style.color = "#00ff00";
+      document.getElementById('gameover-text').textContent = "Вы дожили до 18:00. Мистер Морриган даже не заметил вашего существования.";
+    } else {
+      go.querySelector('h1').textContent = "ВЫ УВОЛЕНЫ";
+      go.querySelector('h1').style.color = "#f44336";
+      document.getElementById('gameover-text').textContent = energy <= 0 ? "Вы уснули на рабочем месте." : "Слишком много ошибок. Босс не прощает.";
+    }
+  }
+
+  generateVisitor();
+  updateStats();
+</script>
+</body>
+</html>
