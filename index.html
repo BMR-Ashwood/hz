@@ -10,66 +10,83 @@
   
   #game { width: 100%; max-width: 600px; height: 100%; display: flex; flex-direction: column; background: #d2c5b3; position: relative; }
   
-  #hud { background: #3e2a1f; color: #e0d0c0; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: bold; border-bottom: 4px solid #5a3f2c; z-index: 5; }
+  /* HUD */
+  #hud { background: #3e2a1f; color: #e0d0c0; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: bold; border-bottom: 4px solid #5a3f2c; z-index: 5; }
   #date-display { color: #ffcc00; }
-  #stats { display: flex; gap: 15px; }
+  #stats { display: flex; gap: 10px; }
   .stat-box { display: flex; flex-direction: column; align-items: flex-end; }
-  .bar { width: 60px; height: 8px; background: #555; border: 1px solid #000; margin-top: 2px; }
+  .bar { width: 50px; height: 8px; background: #555; border: 1px solid #000; margin-top: 2px; }
   .bar-fill { height: 100%; background: #00ff00; transition: width 0.3s; }
   #anger .bar-fill { background: #ff3333; }
 
-  /* Основной экран */
-  #desk { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 20px; }
+  /* Рабочая зона */
+  #desk { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; padding: 10px; overflow-y: auto; }
   
-  #visitor-dummy { width: 80px; height: 120px; background: #999; border: 4px solid #444; border-radius: 20px 20px 0 0; position: relative; margin-bottom: 10px; display: flex; justify-content: center; align-items: center; color: #333; font-weight: bold; font-size: 30px; }
-  #visitor-dummy::before { content: '?'; }
+  /* Заявление (Сверху) */
+  #application { width: 100%; max-width: 350px; background: #fdf5e6; border: 2px solid #000; padding: 10px; margin-bottom: 10px; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); z-index: 10; }
+  #app-title { text-align: center; font-weight: bold; font-size: 12px; border-bottom: 1px solid #000; margin-bottom: 5px; }
+  #app-text { font-size: 14px; text-align: center; }
 
-  #speech-bubble { background: #fff; padding: 10px; border: 2px solid #000; border-radius: 10px; position: relative; max-width: 80%; text-align: center; margin-bottom: 20px; z-index: 10; }
-  #speech-bubble::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); border-width: 10px 10px 0; border-style: solid; border-color: #fff transparent transparent; }
+  /* Контейнер для документов */
+  #docs-container { display: flex; gap: 10px; width: 100%; max-width: 350px; margin-bottom: 15px; z-index: 10; }
   
-  #document-zone { width: 100%; max-width: 350px; background: #fff; border: 2px solid #000; padding: 15px; position: relative; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); transform: rotate(-1deg); margin-bottom: 20px; z-index: 10; }
-  #doc-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; font-weight: bold; font-size: 12px; text-transform: uppercase; }
-  .doc-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; }
-  .doc-label { font-weight: bold; }
-  .doc-value { border-bottom: 1px dotted #000; min-width: 120px; text-align: right; }
+  /* Паспорт */
+  #passport { flex: 1; background: #e0e0e0; border: 2px solid #000; padding: 8px; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; }
+  #passport-title { text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 5px; }
+  .photo-box { width: 40px; height: 50px; background: #999; border: 1px solid #000; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .data-row { font-size: 10px; margin-bottom: 2px; display: flex; justify-content: space-between; }
+  .data-label { color: #555; }
+  .data-value { font-weight: bold; }
+
+  /* Лицензия */
+  #license { flex: 1; background: #fff; border: 2px solid #000; padding: 8px; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; }
+  #license-title { text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 5px; }
   .expired { color: #cc0000; font-weight: bold; }
   .valid { color: #006600; font-weight: bold; }
 
-  #actions { display: flex; gap: 10px; width: 100%; max-width: 350px; z-index: 10; }
-  button { flex: 1; padding: 15px; font-size: 16px; font-weight: bold; border: 2px solid #000; cursor: pointer; text-transform: uppercase; box-shadow: 2px 2px 0 #000; transition: 0.1s; }
+  /* Кнопки */
+  #actions { display: flex; gap: 10px; width: 100%; max-width: 350px; z-index: 10; margin-top: auto; padding-bottom: 10px;}
+  button { flex: 1; padding: 12px; font-size: 14px; font-weight: bold; border: 2px solid #000; cursor: pointer; text-transform: uppercase; box-shadow: 2px 2px 0 #000; transition: 0.1s; }
   button:active { transform: translate(2px, 2px); box-shadow: none; }
   #btn-approve { background: #4caf50; color: #fff; }
   #btn-deny { background: #f44336; color: #fff; }
-  #btn-ask-name { background: #2196f3; color: #fff; }
+  #btn-ask-name { background: #2196f3; color: #fff; flex: 0.5;}
 
-  #message { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 10px 20px; border-radius: 5px; font-weight: bold; display: none; z-index: 20; text-align: center; }
+  /* Сообщения */
+  #message { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 10px 20px; border-radius: 5px; font-weight: bold; display: none; z-index: 20; text-align: center; }
   .flash-red { animation: flashRed 0.5s; }
   .flash-green { animation: flashGreen 0.5s; }
   @keyframes flashRed { 0%, 100% { background-color: transparent; } 50% { background-color: rgba(255,0,0,0.3); } }
   @keyframes flashGreen { 0%, 100% { background-color: transparent; } 50% { background-color: rgba(0,255,0,0.3); } }
 
-  #tasks { position: absolute; top: 60px; left: 10px; right: 10px; display: flex; flex-direction: column; gap: 5px; z-index: 15; }
-  .task-card { background: #fff; border: 2px solid #000; padding: 5px 10px; font-size: 12px; display: flex; flex-direction: column; gap: 5px; box-shadow: 2px 2px 0 #000; }
+  /* Задания */
+  #tasks { position: absolute; top: 50px; left: 10px; right: 10px; display: flex; flex-direction: column; gap: 5px; z-index: 15; pointer-events: none; }
+  .task-card { background: #fff; border: 2px solid #000; padding: 5px 10px; font-size: 12px; display: flex; flex-direction: column; gap: 5px; box-shadow: 2px 2px 0 #000; pointer-events: auto; }
   .task-card .task-text { font-weight: bold; }
   .task-card .task-buttons { display: flex; gap: 5px; }
   .task-card button { padding: 2px 8px; font-size: 10px; flex: none; width: auto; box-shadow: none; }
 
-  /* === МИНИ-ИГРА === */
+  /* Мини-игра */
   #minigame-screen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #2c2c2c; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 50; padding: 20px; }
-  #minigame-title { color: #fff; font-size: 20px; margin-bottom: 20px; text-align: center; }
+  #minigame-title { color: #fff; font-size: 18px; margin-bottom: 20px; text-align: center; }
   #minigame-area { width: 100%; max-width: 400px; height: 300px; background: #4a4a4a; border: 4px solid #000; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px; }
-  .minigame-object { width: 40px; height: 50px; background: #fff; border: 2px solid #000; display: flex; justify-content: center; align-items: center; font-size: 10px; cursor: pointer; box-shadow: 2px 2px 0 #000; transition: transform 0.1s; }
+  .minigame-object { width: 40px; height: 50px; background: #fff; border: 2px solid #000; display: flex; justify-content: center; align-items: center; font-size: 10px; cursor: pointer; box-shadow: 2px 2px 0 #000; transition: transform 0.1s; z-index: 2; }
   .minigame-object:active { transform: scale(0.9); }
   .minigame-object.done { background: #4caf50; color: #fff; border-color: #000; pointer-events: none; }
   #minigame-target { font-size: 16px; color: #fff; margin-top: 20px; }
-  
-  /* Пиксельные сотрудники для мини-игры (упрощенные) */
-  .mini-char { width: 60px; height: 100px; position: absolute; bottom: 10px; right: 10px; }
-  .mini-char .head { width: 24px; height: 24px; background: #f0c0a0; position: absolute; top: 0; left: 18px; border: 2px solid #000; border-radius: 4px; z-index: 2; }
-  .mini-char .body { width: 40px; height: 60px; background: #333; position: absolute; top: 24px; left: 10px; border: 2px solid #000; z-index: 1; }
-  .mini-char .hair { width: 28px; height: 12px; background: #4e342e; position: absolute; top: -4px; left: 16px; border: 2px solid #000; border-radius: 4px; z-index: 3; }
 
-  #gameover { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); color: #fff; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; padding: 20px; }
+  /* Пиксельные сотрудники */
+  .mini-char { width: 64px; height: 128px; position: absolute; bottom: 10px; right: 10px; z-index: 10; }
+  .px { position: absolute; border: 1px solid #000; }
+  .px-head { width: 32px; height: 36px; background: #fce4d6; border-radius: 6px; z-index: 2; }
+  .px-body { width: 48px; height: 64px; z-index: 1; border-radius: 6px 6px 0 0; }
+  .alfred-head { top: 10px; left: 16px; } .alfred-hair { width: 34px; height: 16px; background: #6d4c41; top: 4px; left: 15px; border-radius: 10px 10px 0 0; z-index: 3; } .alfred-body { background: #78909c; top: 46px; left: 8px; } .alfred-tie { width: 6px; height: 30px; background: #222; top: 46px; left: 29px; z-index: 2; }
+  .evelyn-head { top: 15px; left: 16px; } .evelyn-hair { width: 40px; height: 46px; background: #e8c77a; top: 6px; left: 12px; border-radius: 50% 50% 10% 10%; z-index: 1; } .evelyn-body { background: #f0f0e0; top: 45px; left: 12px; width: 40px; border-radius: 20px 20px 0 0; } .evelyn-scarf { width: 16px; height: 20px; background: #1b5e20; top: 45px; left: 24px; z-index: 3; }
+  .netz-head { top: 10px; left: 16px; background: #d2a68a; } .netz-hair { width: 36px; height: 56px; background: #1a1a1a; top: 4px; left: 14px; border-radius: 10px; z-index: 1; } .netz-body { background: #3e2723; top: 46px; left: 8px; } .netz-tie { width: 6px; height: 30px; background: #222; top: 46px; left: 29px; z-index: 2; }
+  .bern-head { top: 10px; left: 16px; } .bern-hair { width: 36px; height: 40px; background: #2a1b1b; top: 4px; left: 14px; border-radius: 10px; z-index: 1; } .bern-streak { width: 10px; height: 24px; background: #ccc; top: 8px; left: 14px; transform: rotate(-10deg); z-index: 2; } .bern-body { background: #333; top: 46px; left: 8px; }
+  .vanya-head { top: 10px; left: 16px; } .vanya-hair { width: 36px; height: 18px; background: #9e9e9e; top: 4px; left: 14px; border-radius: 10px 10px 0 0; z-index: 3; } .vanya-body { background: #4a4a4a; top: 46px; left: 8px; } .vanya-tie { width: 6px; height: 30px; background: #111; top: 46px; left: 29px; z-index: 2; }
+
+  #gameover { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); color: #fff; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; padding: 20px; }
   #gameover h1 { color: #f44336; margin-bottom: 20px; }
 </style>
 </head>
@@ -92,14 +109,27 @@
     <div id="message"></div>
     <div id="tasks"></div>
     
-    <div id="visitor-dummy"></div>
-    <div id="speech-bubble">...</div>
+    <div id="application">
+      <div id="app-title">ЗАЯВЛЕНИЕ</div>
+      <div id="app-text">...</div>
+    </div>
 
-    <div id="document-zone">
-      <div id="doc-header">Бюро Магического Регулирования</div>
-      <div class="doc-row"><span class="doc-label">Имя:</span> <span id="doc-name" class="doc-value">...</span></div>
-      <div class="doc-row"><span class="doc-label">Номер:</span> <span id="doc-number" class="doc-value">...</span></div>
-      <div class="doc-row"><span class="doc-label">Истекает:</span> <span id="doc-expiry" class="doc-value">...</span></div>
+    <div id="docs-container">
+      <!-- Паспорт -->
+      <div id="passport">
+        <div id="passport-title">ПАСПОРТ</div>
+        <div class="photo-box">👤</div>
+        <div class="data-row"><span class="data-label">Имя:</span> <span class="data-value" id="pass-name">...</span></div>
+        <div class="data-row"><span class="data-label">Год р.:</span> <span class="data-value" id="pass-birth">...</span></div>
+      </div>
+
+      <!-- Лицензия -->
+      <div id="license">
+        <div id="license-title">ЛИЦЕНЗИЯ</div>
+        <div style="height: 50px; display: flex; align-items: center; justify-content: center; font-size: 20px; border-bottom: 1px solid #000; margin-bottom: 5px;">📄</div>
+        <div class="data-row"><span class="data-label">Имя:</span> <span class="data-value" id="lic-name">...</span></div>
+        <div class="data-row"><span class="data-label">Действ. до:</span> <span class="data-value" id="lic-expiry">...</span></div>
+      </div>
     </div>
 
     <div id="actions">
@@ -109,7 +139,6 @@
     </div>
   </div>
 
-  <!-- Экран мини-игры -->
   <div id="minigame-screen">
     <h2 id="minigame-title">Мини-игра</h2>
     <div id="minigame-area"></div>
@@ -128,7 +157,7 @@
   let anger = 0;
   let timeMinutes = 9 * 60;
   let isGameOver = false;
-  let isPaused = false; // Пауза для мини-игр
+  let isPaused = false;
   let currentVisitor = null;
   let hasAskedName = false;
   
@@ -149,6 +178,7 @@
     const docName = Math.random() < 0.2 ? getRandomName() : realName;
     const isDocFake = docName !== realName;
     
+    // Генерируем случайную дату (от -10 до +10 дней)
     const daysOffset = Math.floor(Math.random() * 21) - 10;
     const expiryDate = new Date(gameDate);
     expiryDate.setDate(gameDate.getDate() + daysOffset);
@@ -159,25 +189,31 @@
       wantsRenew: Math.random() < 0.5
     };
 
-    let speech = "";
-    if (currentVisitor.wantsRenew) speech = "Стажёр, мне нужно продлить лицензию. Вот моя бумага.";
-    else speech = "Стажёр, проверьте мою лицензию. Мне сказали, что она действительна.";
+    // Заполняем Заявление
+    const appText = currentVisitor.wantsRenew 
+      ? "Прошу продлить мою лицензию на осуществление магической деятельности." 
+      : "Прошу проверить подлинность моей лицензии.";
+    document.getElementById('app-text').textContent = appText;
 
-    document.getElementById('speech-bubble').textContent = '— ' + speech;
-    document.getElementById('doc-name').textContent = currentVisitor.docName;
-    document.getElementById('doc-number').textContent = "БМР-" + Math.floor(1000 + Math.random() * 9000);
+    // Заполняем Паспорт
+    document.getElementById('pass-name').textContent = currentVisitor.realName;
+    document.getElementById('pass-birth').textContent = 1850 + Math.floor(Math.random() * 40);
+
+    // Заполняем Лицензию
+    document.getElementById('lic-name').textContent = currentVisitor.docName;
     
     const expiryStr = expiryDate.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const expiryEl = document.getElementById('doc-expiry');
+    const expiryEl = document.getElementById('lic-expiry');
     expiryEl.textContent = expiryStr;
-    expiryEl.className = currentVisitor.isExpired ? 'doc-value expired' : 'doc-value valid';
+    expiryEl.className = currentVisitor.isExpired ? 'data-value expired' : 'data-value valid';
   }
 
   window.askName = function() {
     if (isGameOver || hasAskedName || isPaused) return;
     hasAskedName = true;
     document.getElementById('btn-ask-name').style.display = 'none';
-    document.getElementById('speech-bubble').textContent = `— Меня зовут ${currentVisitor.realName}. Вот моя лицензия.`;
+    // Посетитель говорит имя (оно должно совпадать с паспортом)
+    document.getElementById('speech-bubble').textContent = `— Меня зовут ${currentVisitor.realName}.`;
   };
 
   window.handleAction = function(action) {
@@ -185,16 +221,30 @@
 
     let isCorrect = false;
 
+    // ЛОГИКА ПРОВЕРКИ:
+    // 1. Если имя в лицензии не совпадает с паспортом — всегда отказ.
     if (currentVisitor.isDocFake) {
       isCorrect = (action === 'deny');
-    } else if (currentVisitor.wantsRenew) {
-      isCorrect = currentVisitor.isExpired ? (action === 'approve') : (action === 'deny');
-    } else {
-      isCorrect = currentVisitor.isExpired ? (action === 'deny') : (action === 'approve');
+    } 
+    // 2. Если просит продлить, а лицензия просрочена — ОТКАЗ (нельзя продлевать просроченное).
+    else if (currentVisitor.wantsRenew && currentVisitor.isExpired) {
+      isCorrect = (action === 'deny');
+    }
+    // 3. Если просит продлить, а лицензия еще действует — ОДОБРИТЬ.
+    else if (currentVisitor.wantsRenew && !currentVisitor.isExpired) {
+      isCorrect = (action === 'approve');
+    }
+    // 4. Если просит проверить, а лицензия просрочена — ОТКАЗ.
+    else if (!currentVisitor.wantsRenew && currentVisitor.isExpired) {
+      isCorrect = (action === 'deny');
+    }
+    // 5. Если просит проверить, а лицензия действует — ОДОБРИТЬ.
+    else if (!currentVisitor.wantsRenew && !currentVisitor.isExpired) {
+      isCorrect = (action === 'approve');
     }
 
     if (isCorrect) {
-      showMessage("Верно! Босс доволен.", "green");
+      showMessage("Верно! Документы в порядке.", "green");
       anger = Math.max(0, anger - 10);
     } else {
       showMessage("ОШИБКА! Босс в ярости!", "red");
@@ -219,170 +269,16 @@
     }, 1500);
   };
 
-  // === МЕХАНИКА МИНИ-ИГР ===
-  function startMiniGame(type, employeeName, taskCard) {
-    isPaused = true;
-    taskCard.remove(); // Убираем карточку, так как мы уже в мини-игре
-    
-    const screen = document.getElementById('minigame-screen');
-    const title = document.getElementById('minigame-title');
-    const area = document.getElementById('minigame-area');
-    const targetText = document.getElementById('minigame-target');
-    
-    screen.style.display = 'flex';
-    area.innerHTML = '';
-    
-    let requiredClicks = 0;
-    let currentClicks = 0;
-    
-    if (type === 'papers') {
-      title.textContent = `Альфред: «Подшей эти отчеты, стажёр.»`;
-      requiredClicks = 5;
-      for (let i = 0; i < 5; i++) {
-        const paper = document.createElement('div');
-        paper.className = 'minigame-object';
-        paper.textContent = 'Отчет';
-        paper.onclick = () => {
-          if (!paper.classList.contains('done')) {
-            paper.classList.add('done');
-            currentClicks++;
-            updateTarget();
-          }
-        };
-        area.appendChild(paper);
-      }
-      addMiniChar(area, '#b0bec5', 'Альфред'); // Серый пиджак
-    } 
-    else if (type === 'sugar') {
-      title.textContent = `Эвелин: «Принеси сахар из шкафа, пожалуйста.»`;
-      requiredClicks = 3;
-      for (let i = 0; i < 3; i++) {
-        const sugar = document.createElement('div');
-        sugar.className = 'minigame-object';
-        sugar.textContent = 'Сахар';
-        sugar.style.background = '#fff';
-        sugar.onclick = () => {
-          if (!sugar.classList.contains('done')) {
-            sugar.classList.add('done');
-            currentClicks++;
-            updateTarget();
-          }
-        };
-        area.appendChild(sugar);
-      }
-      addMiniChar(area, '#1b5e20', 'Эвелин'); // Зеленый шарф
-    }
-    else if (type === 'archive') {
-      title.textContent = `Нетц: «Проверь архив, там всё в порядке?»`;
-      requiredClicks = 4;
-      for (let i = 0; i < 4; i++) {
-        const file = document.createElement('div');
-        file.className = 'minigame-object';
-        file.textContent = 'Файл';
-        file.style.background = '#d2a68a'; // Цвет папки
-        file.onclick = () => {
-          if (!file.classList.contains('done')) {
-            file.classList.add('done');
-            currentClicks++;
-            updateTarget();
-          }
-        };
-        area.appendChild(file);
-      }
-      addMiniChar(area, '#3e2723', 'Нетц'); // Коричневый пиджак
-    }
-    else if (type === 'spoon') {
-      title.textContent = `Бернадетт: «Проверь ложку в ящике. Она тёплая.»`;
-      requiredClicks = 1;
-      const spoon = document.createElement('div');
-      spoon.className = 'minigame-object';
-      spoon.textContent = 'Ложка';
-      spoon.style.background = '#ccc';
-      spoon.onclick = () => {
-        if (!spoon.classList.contains('done')) {
-          spoon.classList.add('done');
-          currentClicks++;
-          updateTarget();
-        }
-      };
-      area.appendChild(spoon);
-      addMiniChar(area, '#333', 'Бернадетт'); // Темная одежда
-    }
-    else if (type === 'smoke') {
-      title.textContent = `Ваня: «Пойдём покурим?»`;
-      requiredClicks = 1;
-      const cig = document.createElement('div');
-      cig.className = 'minigame-object';
-      cig.textContent = 'Курить';
-      cig.style.background = '#f44336';
-      cig.onclick = () => {
-        if (!cig.classList.contains('done')) {
-          cig.classList.add('done');
-          currentClicks++;
-          updateTarget();
-        }
-      };
-      area.appendChild(cig);
-      addMiniChar(area, '#4e342e', 'Ваня'); // Каштановые волосы
-    }
-
-    function updateTarget() {
-      targetText.textContent = `Цель: ${currentClicks} / ${requiredClicks}`;
-      if (currentClicks >= requiredClicks) {
-        setTimeout(() => {
-          screen.style.display = 'none';
-          isPaused = false;
-          showMessage("Поручение выполнено!", "green");
-          anger = Math.max(0, anger - 5);
-          updateStats();
-        }, 500);
-      }
-    }
-    updateTarget();
-  }
-
-  // Вспомогательная функция для добавления пиксельного сотрудника в мини-игру
-  function addMiniChar(area, bodyColor, name) {
-    const char = document.createElement('div');
-    char.className = 'mini-char';
-    
-    let hairColor = '#4e342e';
-    if (name === 'Эвелин') hairColor = '#e8c77a';
-    if (name === 'Нетц') hairColor = '#1a1a1a';
-    
-    char.innerHTML = `
-      <div class="body" style="background: ${bodyColor};"></div>
-      <div class="head"></div>
-      <div class="hair" style="background: ${hairColor};"></div>
-    `;
-    area.appendChild(char);
-  }
-
-  // === ЗАДАНИЯ ===
   function spawnTask() {
     if (isGameOver || isPaused) return;
     const tasksEl = document.getElementById('tasks');
     
     const taskData = [
       {
-        text: "Ваня: «Стажёр, пойдём покурим? А то тут душно.»",
-        options: [
-          { label: "Пойти", minigame: 'smoke', effect: () => { energy -= 15; anger = Math.max(0, anger - 10); } },
-          { label: "Отказаться", effect: () => { anger += 5; showMessage("Ваня обиделся.", "red"); } }
-        ]
-      },
-      {
-        text: "Бернадетт: «Стажёр, проверь, не шевелится ли ложка в ящике.»",
-        options: [
-          { label: "Проверить", minigame: 'spoon', effect: () => { energy -= 5; } },
-          { label: "Игнорировать", effect: () => { anger += 15; showMessage("Бернадетт обиделась. И ложка тоже.", "red"); } }
-        ]
-      },
-      {
         text: "Альфред: «Стажёр, подшей отчет за вчерашний день. Срочно.»",
         options: [
           { label: "Подшить", minigame: 'papers', effect: () => { energy -= 10; } },
-          { label: "Сказать 'потом'", effect: () => { anger += 10; showMessage("Альфред записал это в личное дело.", "red"); } }
+          { label: "Потом", effect: () => { anger += 10; showMessage("Альфред записал это в личное дело.", "red"); } }
         ]
       },
       {
@@ -396,7 +292,21 @@
         text: "Нетц: «Стажёр, зайди в архив, посмотри, там все в порядке?»",
         options: [
           { label: "Сходить", minigame: 'archive', effect: () => { energy -= 15; } },
-          { label: "Сказать, что занят", effect: () => { anger += 5; showMessage("Нетц подозрительно прищурился.", "red"); } }
+          { label: "Занят", effect: () => { anger += 5; showMessage("Нетц подозрительно прищурился.", "red"); } }
+        ]
+      },
+      {
+        text: "Бернадетт: «Стажёр, проверь, не шевелится ли ложка в ящике.»",
+        options: [
+          { label: "Проверить", minigame: 'spoon', effect: () => { energy -= 5; } },
+          { label: "Игнорировать", effect: () => { anger += 15; showMessage("Бернадетт обиделась.", "red"); } }
+        ]
+      },
+      {
+        text: "Ваня: «Стажёр, пойдём покурим? А то тут душно.»",
+        options: [
+          { label: "Пойти", minigame: 'smoke', effect: () => { energy -= 15; anger = Math.max(0, anger - 10); } },
+          { label: "Отказаться", effect: () => { anger += 5; showMessage("Ваня обиделся.", "red"); } }
         ]
       }
     ];
@@ -428,7 +338,6 @@
     }, 20000);
   }
 
-  // Обработка клика по кнопке в задании
   window.handleTaskClick = function(index, btn) {
     const task = btn.closest('.task-card');
     if (!task) return;
@@ -436,16 +345,119 @@
     const option = task._options[index];
     
     if (option.minigame) {
-      // Запуск мини-игры
-      const employeeName = task._originalText.split(':')[0];
-      startMiniGame(option.minigame, employeeName, task);
+      startMiniGame(option.minigame, task);
     } else {
-      // Обычное действие
       if (option.effect) option.effect();
       task.remove();
       updateStats();
     }
   };
+
+  // === МИНИ-ИГРЫ ===
+  function startMiniGame(type, taskCard) {
+    isPaused = true;
+    taskCard.remove(); 
+    
+    const screen = document.getElementById('minigame-screen');
+    const title = document.getElementById('minigame-title');
+    const area = document.getElementById('minigame-area');
+    const targetText = document.getElementById('minigame-target');
+    
+    screen.style.display = 'flex';
+    area.innerHTML = '';
+    
+    let requiredClicks = 0;
+    let currentClicks = 0;
+    
+    if (type === 'papers') {
+      title.textContent = `Альфред: «Подшей эти отчеты, стажёр.»`;
+      requiredClicks = 5;
+      for (let i = 0; i < 5; i++) {
+        const paper = document.createElement('div');
+        paper.className = 'minigame-object';
+        paper.textContent = 'Отчет';
+        paper.onclick = () => { if (!paper.classList.contains('done')) { paper.classList.add('done'); currentClicks++; updateTarget(); } };
+        area.appendChild(paper);
+      }
+      addMiniChar(area, 'alfred');
+    } 
+    else if (type === 'sugar') {
+      title.textContent = `Эвелин: «Принеси сахар из шкафа, пожалуйста.»`;
+      requiredClicks = 3;
+      for (let i = 0; i < 3; i++) {
+        const sugar = document.createElement('div');
+        sugar.className = 'minigame-object';
+        sugar.textContent = 'Сахар';
+        sugar.style.background = '#fff';
+        sugar.onclick = () => { if (!sugar.classList.contains('done')) { sugar.classList.add('done'); currentClicks++; updateTarget(); } };
+        area.appendChild(sugar);
+      }
+      addMiniChar(area, 'evelyn');
+    }
+    else if (type === 'archive') {
+      title.textContent = `Нетц: «Проверь архив, там всё в порядке?»`;
+      requiredClicks = 4;
+      for (let i = 0; i < 4; i++) {
+        const file = document.createElement('div');
+        file.className = 'minigame-object';
+        file.textContent = 'Файл';
+        file.style.background = '#d2a68a';
+        file.onclick = () => { if (!file.classList.contains('done')) { file.classList.add('done'); currentClicks++; updateTarget(); } };
+        area.appendChild(file);
+      }
+      addMiniChar(area, 'netz');
+    }
+    else if (type === 'spoon') {
+      title.textContent = `Бернадетт: «Проверь ложку в ящике. Она тёплая.»`;
+      requiredClicks = 1;
+      const spoon = document.createElement('div');
+      spoon.className = 'minigame-object';
+      spoon.textContent = 'Ложка';
+      spoon.style.background = '#ccc';
+      spoon.onclick = () => { if (!spoon.classList.contains('done')) { spoon.classList.add('done'); currentClicks++; updateTarget(); } };
+      area.appendChild(spoon);
+      addMiniChar(area, 'bernadette');
+    }
+    else if (type === 'smoke') {
+      title.textContent = `Ваня: «Пойдём покурим?»`;
+      requiredClicks = 1;
+      const cig = document.createElement('div');
+      cig.className = 'minigame-object';
+      cig.textContent = 'Курить';
+      cig.style.background = '#f44336';
+      cig.onclick = () => { if (!cig.classList.contains('done')) { cig.classList.add('done'); currentClicks++; updateTarget(); } };
+      area.appendChild(cig);
+      addMiniChar(area, 'vanya');
+    }
+
+    function updateTarget() {
+      targetText.textContent = `Цель: ${currentClicks} / ${requiredClicks}`;
+      if (currentClicks >= requiredClicks) {
+        setTimeout(() => {
+          screen.style.display = 'none';
+          isPaused = false;
+          showMessage("Поручение выполнено!", "green");
+          anger = Math.max(0, anger - 5);
+          updateStats();
+        }, 500);
+      }
+    }
+    updateTarget();
+  }
+
+  function addMiniChar(area, charClass) {
+    const char = document.createElement('div');
+    char.className = 'mini-char';
+    char.innerHTML = `
+      <div class="px ${charClass}-body"></div>
+      <div class="px ${charClass}-head"></div>
+      <div class="px ${charClass}-hair"></div>
+      ${charClass === 'alfred' || charClass === 'netz' || charClass === 'vanya' ? `<div class="px ${charClass}-tie"></div>` : ''}
+      ${charClass === 'evelyn' ? `<div class="px evelyn-scarf"></div>` : ''}
+      ${charClass === 'bernadette' ? `<div class="px bern-streak"></div>` : ''}
+    `;
+    area.appendChild(char);
+  }
 
   function showMessage(text, color) {
     const msg = document.getElementById('message');
@@ -471,7 +483,7 @@
   }
 
   setInterval(() => {
-    if (isGameOver || isPaused) return; // Таймер стоит, пока идет мини-игра
+    if (isGameOver || isPaused) return;
     timeMinutes += 1;
     if (timeMinutes >= 18 * 60) { endGame(true); return; }
     if (timeMinutes % 10 === 0) {
