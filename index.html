@@ -11,7 +11,7 @@
   #game { width: 100%; max-width: 600px; height: 100%; display: flex; flex-direction: column; background: #d2c5b3; position: relative; }
   
   /* HUD */
-  #hud { background: #3e2a1f; color: #e0d0c0; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: bold; border-bottom: 4px solid #5a3f2c; z-index: 5; }
+  #hud { background: #3e2a1f; color: #e0d0c0; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: bold; border-bottom: 4px solid #5a3f2c; z-index: 5; flex-shrink: 0; }
   #date-display { color: #ffcc00; }
   #stats { display: flex; gap: 10px; }
   .stat-box { display: flex; flex-direction: column; align-items: flex-end; }
@@ -19,40 +19,35 @@
   .bar-fill { height: 100%; background: #00ff00; transition: width 0.3s; }
   #anger .bar-fill { background: #ff3333; }
 
-  /* Рабочая зона */
+  /* Рабочая зона (прокручиваемая) */
   #desk { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; padding: 10px; overflow-y: auto; }
   
-  /* Заявление (Сверху) */
-  #application { width: 100%; max-width: 350px; background: #fdf5e6; border: 2px solid #000; padding: 10px; margin-bottom: 10px; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); z-index: 10; }
+  #application { width: 100%; max-width: 380px; background: #fdf5e6; border: 2px solid #000; padding: 10px; margin-bottom: 10px; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); z-index: 10; flex-shrink: 0; }
   #app-title { text-align: center; font-weight: bold; font-size: 12px; border-bottom: 1px solid #000; margin-bottom: 5px; }
   #app-text { font-size: 14px; text-align: center; }
 
-  /* Контейнер для документов */
-  #docs-container { display: flex; gap: 10px; width: 100%; max-width: 350px; margin-bottom: 15px; z-index: 10; }
+  #docs-container { display: flex; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 15px; z-index: 10; flex-shrink: 0; }
   
-  /* Паспорт */
   #passport { flex: 1; background: #e0e0e0; border: 2px solid #000; padding: 8px; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; }
   #passport-title { text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 5px; }
   .photo-box { width: 40px; height: 50px; background: #999; border: 1px solid #000; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-  .data-row { font-size: 10px; margin-bottom: 2px; display: flex; justify-content: space-between; }
-  .data-label { color: #555; }
+  .data-row { font-size: 11px; margin-bottom: 2px; display: flex; flex-direction: column; }
+  .data-label { color: #555; font-size: 9px; }
   .data-value { font-weight: bold; }
 
-  /* Лицензия */
   #license { flex: 1; background: #fff; border: 2px solid #000; padding: 8px; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; }
   #license-title { text-align: center; font-weight: bold; font-size: 10px; margin-bottom: 5px; }
   .expired { color: #cc0000; font-weight: bold; }
   .valid { color: #006600; font-weight: bold; }
 
-  /* Кнопки */
-  #actions { display: flex; gap: 10px; width: 100%; max-width: 350px; z-index: 10; margin-top: auto; padding-bottom: 10px;}
+  /* Панель кнопок (ВСЕГДА ВНИЗУ) */
+  #actions { display: flex; gap: 10px; width: 100%; max-width: 380px; z-index: 10; padding: 10px; background: #d2c5b3; box-shadow: 0 -5px 10px rgba(0,0,0,0.1); flex-shrink: 0; }
   button { flex: 1; padding: 12px; font-size: 14px; font-weight: bold; border: 2px solid #000; cursor: pointer; text-transform: uppercase; box-shadow: 2px 2px 0 #000; transition: 0.1s; }
   button:active { transform: translate(2px, 2px); box-shadow: none; }
   #btn-approve { background: #4caf50; color: #fff; }
   #btn-deny { background: #f44336; color: #fff; }
-  #btn-ask-name { background: #2196f3; color: #fff; flex: 0.5;}
+  #btn-ask-name { background: #2196f3; color: #fff; flex: 0.7; font-size: 12px; }
 
-  /* Сообщения */
   #message { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 10px 20px; border-radius: 5px; font-weight: bold; display: none; z-index: 20; text-align: center; }
   .flash-red { animation: flashRed 0.5s; }
   .flash-green { animation: flashGreen 0.5s; }
@@ -60,7 +55,7 @@
   @keyframes flashGreen { 0%, 100% { background-color: transparent; } 50% { background-color: rgba(0,255,0,0.3); } }
 
   /* Задания */
-  #tasks { position: absolute; top: 50px; left: 10px; right: 10px; display: flex; flex-direction: column; gap: 5px; z-index: 15; pointer-events: none; }
+  #tasks { position: absolute; top: 60px; left: 10px; right: 10px; display: flex; flex-direction: column; gap: 5px; z-index: 15; pointer-events: none; }
   .task-card { background: #fff; border: 2px solid #000; padding: 5px 10px; font-size: 12px; display: flex; flex-direction: column; gap: 5px; box-shadow: 2px 2px 0 #000; pointer-events: auto; }
   .task-card .task-text { font-weight: bold; }
   .task-card .task-buttons { display: flex; gap: 5px; }
@@ -115,7 +110,6 @@
     </div>
 
     <div id="docs-container">
-      <!-- Паспорт -->
       <div id="passport">
         <div id="passport-title">ПАСПОРТ</div>
         <div class="photo-box">👤</div>
@@ -123,7 +117,6 @@
         <div class="data-row"><span class="data-label">Год р.:</span> <span class="data-value" id="pass-birth">...</span></div>
       </div>
 
-      <!-- Лицензия -->
       <div id="license">
         <div id="license-title">ЛИЦЕНЗИЯ</div>
         <div style="height: 50px; display: flex; align-items: center; justify-content: center; font-size: 20px; border-bottom: 1px solid #000; margin-bottom: 5px;">📄</div>
@@ -131,12 +124,13 @@
         <div class="data-row"><span class="data-label">Действ. до:</span> <span class="data-value" id="lic-expiry">...</span></div>
       </div>
     </div>
+  </div>
 
-    <div id="actions">
-      <button id="btn-ask-name" onclick="askName()">Спросить имя</button>
-      <button id="btn-approve" onclick="handleAction('approve')">Одобрить</button>
-      <button id="btn-deny" onclick="handleAction('deny')">Отклонить</button>
-    </div>
+  <!-- ПАНЕЛЬ КНОПОК (ЗАКРЕПЛЕНА СНИЗУ) -->
+  <div id="actions">
+    <button id="btn-ask-name" onclick="askName()">Спросить имя</button>
+    <button id="btn-approve" onclick="handleAction('approve')">Одобрить</button>
+    <button id="btn-deny" onclick="handleAction('deny')">Отклонить</button>
   </div>
 
   <div id="minigame-screen">
@@ -170,15 +164,31 @@
     return `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`;
   }
 
+  // Функция для изменения одной буквы в имени (для подделки)
+  function corruptName(name) {
+    let arr = name.split('');
+    // Ищем букву для замены (не пробел)
+    let index = Math.floor(Math.random() * arr.length);
+    while (arr[index] === ' ') {
+      index = Math.floor(Math.random() * arr.length);
+    }
+    // Меняем на похожую или случайную
+    const letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+    arr[index] = randomLetter;
+    return arr.join('');
+  }
+
   function generateVisitor() {
     hasAskedName = false;
     document.getElementById('btn-ask-name').style.display = 'block';
 
     const realName = getRandomName();
-    const docName = Math.random() < 0.2 ? getRandomName() : realName;
-    const isDocFake = docName !== realName;
     
-    // Генерируем случайную дату (от -10 до +10 дней)
+    // 20% шанс, что в лицензии имя отличается на одну букву
+    const isDocFake = Math.random() < 0.2;
+    const docName = isDocFake ? corruptName(realName) : realName;
+    
     const daysOffset = Math.floor(Math.random() * 21) - 10;
     const expiryDate = new Date(gameDate);
     expiryDate.setDate(gameDate.getDate() + daysOffset);
@@ -189,17 +199,14 @@
       wantsRenew: Math.random() < 0.5
     };
 
-    // Заполняем Заявление
     const appText = currentVisitor.wantsRenew 
       ? "Прошу продлить мою лицензию на осуществление магической деятельности." 
       : "Прошу проверить подлинность моей лицензии.";
     document.getElementById('app-text').textContent = appText;
 
-    // Заполняем Паспорт
     document.getElementById('pass-name').textContent = currentVisitor.realName;
     document.getElementById('pass-birth').textContent = 1850 + Math.floor(Math.random() * 40);
 
-    // Заполняем Лицензию
     document.getElementById('lic-name').textContent = currentVisitor.docName;
     
     const expiryStr = expiryDate.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -212,8 +219,8 @@
     if (isGameOver || hasAskedName || isPaused) return;
     hasAskedName = true;
     document.getElementById('btn-ask-name').style.display = 'none';
-    // Посетитель говорит имя (оно должно совпадать с паспортом)
-    document.getElementById('speech-bubble').textContent = `— Меня зовут ${currentVisitor.realName}.`;
+    // Выводим имя в консоль или алерт для игрока (так как поля для речи нет)
+    alert(`Посетитель говорит: «Меня зовут ${currentVisitor.realName}».`);
   };
 
   window.handleAction = function(action) {
@@ -221,25 +228,15 @@
 
     let isCorrect = false;
 
-    // ЛОГИКА ПРОВЕРКИ:
-    // 1. Если имя в лицензии не совпадает с паспортом — всегда отказ.
     if (currentVisitor.isDocFake) {
       isCorrect = (action === 'deny');
-    } 
-    // 2. Если просит продлить, а лицензия просрочена — ОТКАЗ (нельзя продлевать просроченное).
-    else if (currentVisitor.wantsRenew && currentVisitor.isExpired) {
+    } else if (currentVisitor.wantsRenew && currentVisitor.isExpired) {
       isCorrect = (action === 'deny');
-    }
-    // 3. Если просит продлить, а лицензия еще действует — ОДОБРИТЬ.
-    else if (currentVisitor.wantsRenew && !currentVisitor.isExpired) {
+    } else if (currentVisitor.wantsRenew && !currentVisitor.isExpired) {
       isCorrect = (action === 'approve');
-    }
-    // 4. Если просит проверить, а лицензия просрочена — ОТКАЗ.
-    else if (!currentVisitor.wantsRenew && currentVisitor.isExpired) {
+    } else if (!currentVisitor.wantsRenew && currentVisitor.isExpired) {
       isCorrect = (action === 'deny');
-    }
-    // 5. Если просит проверить, а лицензия действует — ОДОБРИТЬ.
-    else if (!currentVisitor.wantsRenew && !currentVisitor.isExpired) {
+    } else if (!currentVisitor.wantsRenew && !currentVisitor.isExpired) {
       isCorrect = (action === 'approve');
     }
 
@@ -325,7 +322,6 @@
     `;
     
     task._options = data.options;
-    task._originalText = data.text;
     tasksEl.appendChild(task);
 
     setTimeout(() => {
@@ -353,7 +349,6 @@
     }
   };
 
-  // === МИНИ-ИГРЫ ===
   function startMiniGame(type, taskCard) {
     isPaused = true;
     taskCard.remove(); 
