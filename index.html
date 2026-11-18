@@ -2,11 +2,11 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Бюро: Смена стажёра</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; user-select: none; }
-  body { background: #1a1a1a; height: 100vh; display: flex; justify-content: center; overflow: hidden; color: #000; }
+  body { background: #1a1a1a; height: 100vh; height: 100dvh; display: flex; justify-content: center; overflow: hidden; color: #000; }
   
   #game { width: 100%; max-width: 600px; height: 100%; display: flex; flex-direction: column; background: #d2c5b3; position: relative; }
   
@@ -19,9 +19,13 @@
   .bar-fill { height: 100%; background: #00ff00; transition: width 0.3s; }
   #anger .bar-fill { background: #ff3333; }
 
-  /* Рабочая зона (прокручиваемая) */
+  /* Рабочая зона */
   #desk { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; padding: 10px; overflow-y: auto; }
   
+  /* Таймер */
+  #timer-bar-container { width: 100%; max-width: 380px; height: 12px; background: #555; border: 2px solid #000; margin-bottom: 10px; }
+  #timer-bar { height: 100%; background: #ffcc00; width: 100%; transition: width 0.1s linear; }
+
   #application { width: 100%; max-width: 380px; background: #fdf5e6; border: 2px solid #000; padding: 10px; margin-bottom: 10px; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); z-index: 10; flex-shrink: 0; }
   #app-title { text-align: center; font-weight: bold; font-size: 12px; border-bottom: 1px solid #000; margin-bottom: 5px; }
   #app-text { font-size: 14px; text-align: center; }
@@ -40,13 +44,13 @@
   .expired { color: #cc0000; font-weight: bold; }
   .valid { color: #006600; font-weight: bold; }
 
-  /* Панель кнопок (ВСЕГДА ВНИЗУ) */
-  #actions { display: flex; gap: 10px; width: 100%; max-width: 380px; z-index: 10; padding: 10px; background: #d2c5b3; box-shadow: 0 -5px 10px rgba(0,0,0,0.1); flex-shrink: 0; }
-  button { flex: 1; padding: 12px; font-size: 14px; font-weight: bold; border: 2px solid #000; cursor: pointer; text-transform: uppercase; box-shadow: 2px 2px 0 #000; transition: 0.1s; }
+  /* ПАНЕЛЬ КНОПОК (НАМЕРТВО ВНИЗУ) */
+  #actions { display: flex; gap: 5px; width: 100%; max-width: 600px; z-index: 10; padding: 10px; background: #d2c5b3; border-top: 2px solid #b0a090; flex-shrink: 0; }
+  button { flex: 1; padding: 15px 5px; font-size: 14px; font-weight: bold; border: 2px solid #000; cursor: pointer; text-transform: uppercase; box-shadow: 2px 2px 0 #000; transition: 0.1s; }
   button:active { transform: translate(2px, 2px); box-shadow: none; }
   #btn-approve { background: #4caf50; color: #fff; }
   #btn-deny { background: #f44336; color: #fff; }
-  #btn-ask-name { background: #2196f3; color: #fff; flex: 0.7; font-size: 12px; }
+  #btn-ask-name { background: #2196f3; color: #fff; flex: 0.8; font-size: 12px; }
 
   #message { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 10px 20px; border-radius: 5px; font-weight: bold; display: none; z-index: 20; text-align: center; }
   .flash-red { animation: flashRed 0.5s; }
@@ -104,6 +108,9 @@
     <div id="message"></div>
     <div id="tasks"></div>
     
+    <!-- Таймер -->
+    <div id="timer-bar-container"><div id="timer-bar"></div></div>
+
     <div id="application">
       <div id="app-title">ЗАЯВЛЕНИЕ</div>
       <div id="app-text">...</div>
@@ -126,7 +133,7 @@
     </div>
   </div>
 
-  <!-- ПАНЕЛЬ КНОПОК (ЗАКРЕПЛЕНА СНИЗУ) -->
+  <!-- ПАНЕЛЬ КНОПОК -->
   <div id="actions">
     <button id="btn-ask-name" onclick="askName()">Спросить имя</button>
     <button id="btn-approve" onclick="handleAction('approve')">Одобрить</button>
@@ -155,6 +162,11 @@
   let currentVisitor = null;
   let hasAskedName = false;
   
+  // Переменные таймера
+  let decisionTimer = null;
+  let timeLeft = 0;
+  const MAX_TIME = 120; // 12 секунд на решение
+
   const gameDate = new Date(1920, 2, 20);
   
   const firstNames = ["Александр", "Дмитрий", "Сергей", "Андрей", "Алексей", "Максим", "Иван", "Михаил", "Артем", "Николай", "Владимир", "Павел", "Роман", "Егор", "Игорь", "Анна", "Мария", "Елена", "Ольга", "Наталья", "Ирина", "Татьяна", "Светлана", "Екатерина", "Джон", "Джеймс", "Роберт", "Майкл", "Уильям", "Дэвид", "Ричард", "Джозеф", "Томас", "Чарльз", "Мэри", "Патриция", "Дженнифер", "Линда", "Элизабет", "Барбара"];
@@ -164,19 +176,46 @@
     return `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`;
   }
 
-  // Функция для изменения одной буквы в имени (для подделки)
   function corruptName(name) {
     let arr = name.split('');
-    // Ищем букву для замены (не пробел)
     let index = Math.floor(Math.random() * arr.length);
     while (arr[index] === ' ') {
       index = Math.floor(Math.random() * arr.length);
     }
-    // Меняем на похожую или случайную
     const letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const randomLetter = letters[Math.floor(Math.random() * letters.length)];
     arr[index] = randomLetter;
     return arr.join('');
+  }
+
+  function startDecisionTimer() {
+    clearInterval(decisionTimer);
+    timeLeft = MAX_TIME;
+    document.getElementById('timer-bar').style.width = '100%';
+    document.getElementById('timer-bar').style.background = '#ffcc00';
+
+    decisionTimer = setInterval(() => {
+      if (isGameOver || isPaused) return;
+      timeLeft--;
+      
+      const percent = (timeLeft / MAX_TIME) * 100;
+      document.getElementById('timer-bar').style.width = percent + '%';
+
+      if (percent < 30) {
+        document.getElementById('timer-bar').style.background = '#cc0000';
+      }
+
+      if (timeLeft <= 0) {
+        clearInterval(decisionTimer);
+        // Время вышло - штраф
+        showMessage("Посетитель ушёл! Босс в ярости!", "red");
+        anger += 15;
+        energy -= 5;
+        updateStats();
+        if (anger >= 100 || energy <= 0) { endGame(); return; }
+        generateVisitor();
+      }
+    }, 100);
   }
 
   function generateVisitor() {
@@ -184,9 +223,7 @@
     document.getElementById('btn-ask-name').style.display = 'block';
 
     const realName = getRandomName();
-    
-    // 20% шанс, что в лицензии имя отличается на одну букву
-    const isDocFake = Math.random() < 0.2;
+    const isDocFake = Math.random() < 0.3; // 30% шанс подделки
     const docName = isDocFake ? corruptName(realName) : realName;
     
     const daysOffset = Math.floor(Math.random() * 21) - 10;
@@ -213,18 +250,23 @@
     const expiryEl = document.getElementById('lic-expiry');
     expiryEl.textContent = expiryStr;
     expiryEl.className = currentVisitor.isExpired ? 'data-value expired' : 'data-value valid';
+
+    // Запускаем таймер
+    startDecisionTimer();
   }
 
   window.askName = function() {
     if (isGameOver || hasAskedName || isPaused) return;
     hasAskedName = true;
     document.getElementById('btn-ask-name').style.display = 'none';
-    // Выводим имя в консоль или алерт для игрока (так как поля для речи нет)
     alert(`Посетитель говорит: «Меня зовут ${currentVisitor.realName}».`);
   };
 
   window.handleAction = function(action) {
     if (isGameOver || isPaused) return;
+
+    // Останавливаем таймер
+    clearInterval(decisionTimer);
 
     let isCorrect = false;
 
@@ -352,6 +394,7 @@
   function startMiniGame(type, taskCard) {
     isPaused = true;
     taskCard.remove(); 
+    clearInterval(decisionTimer); // Пауза таймера
     
     const screen = document.getElementById('minigame-screen');
     const title = document.getElementById('minigame-title');
@@ -434,6 +477,7 @@
           showMessage("Поручение выполнено!", "green");
           anger = Math.max(0, anger - 5);
           updateStats();
+          startDecisionTimer(); // Возобновляем таймер
         }, 500);
       }
     }
@@ -493,6 +537,7 @@
 
   function endGame(isWin = false) {
     isGameOver = true;
+    clearInterval(decisionTimer);
     const go = document.getElementById('gameover');
     go.style.display = 'flex';
     if (isWin) {
